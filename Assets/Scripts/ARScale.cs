@@ -15,21 +15,23 @@ public class ARScale : MonoBehaviour
     void Update()
     {
         // Raycast test
-        if (Input.GetMouseButtonDown(0))
-        {
-            Debug.Log("Pressed primary button.");
-
-            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-            RaycastHit hit;
-            if (Physics.Raycast(ray, out hit, 100))
+        /*
+            if (Input.GetMouseButtonDown(0))
             {
-                Debug.Log("hit");
-                Debug.Log(hit.transform.name + " : " + hit.transform.tag);
+                Debug.Log("Pressed primary button.");
+
+                Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+                RaycastHit hit;
+                if (Physics.Raycast(ray, out hit, 100))
+                {
+                    Debug.Log("hit");
+                    Debug.Log(hit.transform.name + " : " + hit.transform.tag);
 
 
 
+                }
             }
-        }
+        */
 
         // scale object to user needs
         ObjectScale();

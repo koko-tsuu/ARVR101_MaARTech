@@ -3,7 +3,9 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - upper_teeth
+  - lower_teeth
   layers:
   - Default
   - TransparentFX
