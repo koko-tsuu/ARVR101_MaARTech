@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.XR.ARFoundation;
 using UnityEngine.XR.ARSubsystems;
@@ -12,10 +13,12 @@ public class ImageTracker : MonoBehaviour
     private ARTrackedImageManager trackedImages;
     [SerializeField] private GameObject groundPrefab;
     [SerializeField] private GameObject[] arPrefabs;
-    int currentObjectIndex;
-    GameObject arCurrentActiveObject;
+    private int currentObjectIndex;
+    private GameObject arCurrentActiveObject;
 
-    Transform originalPos;
+    private Transform originalPos;
+
+    private int modelIndexToSwitchTo;
 
     [SerializeField] private ARScale aRScale;
 
@@ -67,27 +70,53 @@ public class ImageTracker : MonoBehaviour
         }
 
     }
-    
+
     public void ResetObjectProgress()
     {
         arCurrentActiveObject.SetActive(false);
         arCurrentActiveObject.SetActive(true);
 
+        StaticUIHandler.instance.ShowResetWarningPanel(false);
+
         if (currentObjectIndex == 0)
         {
-            StaticUIHandler.instance.HideStairsResetButton();
+            StaticUIHandler.instance.ShowStairsResetButton(false);
             arCurrentActiveObject.GetComponent<StairsScript>().Reset();
         }
 
-        
+
     }
 
-    public void ChangeActiveObject(int index)
+    public void StoreIndexAndDisplaySwitchWarningMessage(int index)
     {
+        StaticUIHandler.instance.ShowSwitchModelWarningPanel(true);
+        modelIndexToSwitchTo = index;
+    }
+    
+    public void ChangeActiveObject()
+    {
+        //StaticUIHandler.instance.s
         Destroy(arCurrentActiveObject);
 
-        arCurrentActiveObject = Instantiate(arPrefabs[index], originalPos);
-        currentObjectIndex = index;
+        arCurrentActiveObject = Instantiate(arPrefabs[modelIndexToSwitchTo], originalPos);
+        currentObjectIndex = modelIndexToSwitchTo;
+
+        StaticUIHandler.instance.ShowResetWarningPanel(false);
+        StaticUIHandler.instance.ShowSwitchModelWarningPanel(false);
+
+        if (currentObjectIndex == 4)
+        {
+            StaticUIHandler.instance.ShowSanctuaryAddButton(true);
+        }
+        else if (currentObjectIndex != 4)
+        {
+            StaticUIHandler.instance.ShowSanctuaryAddButton(false);
+        }
+
+        if (currentObjectIndex == 0)
+        {
+            StaticUIHandler.instance.ShowStairsResetButton(false);
+        }
 
         if (aRScale.objectToScale != null)
             arCurrentActiveObject.transform.localScale = aRScale.objectToScale.transform.localScale; // save previous scale
