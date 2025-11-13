@@ -103,7 +103,20 @@ public class ImageTracker : MonoBehaviour
     public void ResetObjectProgress()
     {
 
-        if (currentObjectIndex != 4)
+        if (currentObjectIndex == 0)
+        {
+
+            arCurrentActiveObject.GetComponent<StairsScript>().Reset();
+
+            // i don't want to deal with why the clock goes up when you reset it in the wrong time
+            // but this method fixes it even if it is inefficient :">
+            Destroy(arCurrentActiveObject);
+            arCurrentActiveObject = Instantiate(arPrefabs[0], originalPos);
+
+            StaticUIHandler.instance.ShowStairsResetButton(false);
+            
+        }
+        else if (currentObjectIndex != 4)
         {
             arCurrentActiveObject.SetActive(false);
             arCurrentActiveObject.SetActive(true);
@@ -115,11 +128,6 @@ public class ImageTracker : MonoBehaviour
 
         StaticUIHandler.instance.ShowResetWarningPanel(false);
 
-        if (currentObjectIndex == 0)
-        {
-            StaticUIHandler.instance.ShowStairsResetButton(false);
-            arCurrentActiveObject.GetComponent<StairsScript>().Reset();
-        }
 
 
     }
