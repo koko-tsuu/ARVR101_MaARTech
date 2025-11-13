@@ -11,13 +11,14 @@ public class ImageTracker : MonoBehaviour
     public static ImageTracker instance { get; private set; }
 
     private ARTrackedImageManager trackedImages;
-    [SerializeField] private GameObject outlineSelection;
+
+    [SerializeField] private GameObject selectPan;
     
     [SerializeField] private GameObject groundPrefab;
     [SerializeField] private GameObject[] arPrefabs;
     private int currentObjectIndex = 0;
     private GameObject arCurrentActiveObject;
-    private List<GameObject> sanctuaryPansList = new List<GameObject>();
+
 
     private Transform originalPos;
 
@@ -82,7 +83,7 @@ public class ImageTracker : MonoBehaviour
             
             else
             {
-                foreach (GameObject child in sanctuaryPansList)
+                foreach (GameObject child in selectPan.GetComponent<SelectPan>().sanctuaryPansList)
                 {
                     if (child.GetComponent<Renderer>() != null)
                     {
@@ -124,20 +125,12 @@ public class ImageTracker : MonoBehaviour
         }
 
         else
-            ClearSanctuaryItems();
+            selectPan.GetComponent<SelectPan>().ClearSanctuaryItems();
 
         StaticUIHandler.instance.ShowResetWarningPanel(false);
 
 
 
-    }
-    
-    private void ClearSanctuaryItems()
-    {
-        for (int i = 0; i < sanctuaryPansList.Count; i++)
-            Destroy(sanctuaryPansList[i]);
-
-        sanctuaryPansList.Clear();
     }
 
     public void StoreIndexAndDisplaySwitchWarningMessage(int index)
@@ -152,7 +145,7 @@ public class ImageTracker : MonoBehaviour
             Destroy(arCurrentActiveObject);
 
         else
-            ClearSanctuaryItems();
+            selectPan.GetComponent<SelectPan>().ClearSanctuaryItems();
 
         currentObjectIndex = modelIndexToSwitchTo;
         
@@ -165,13 +158,14 @@ public class ImageTracker : MonoBehaviour
         if (currentObjectIndex == 4)
         {
             StaticUIHandler.instance.ShowSanctuaryAddButton(true);
-            outlineSelection.SetActive(true);
-            SanctuaryAddNewPan();
+            selectPan.SetActive(true);
+            StaticUIHandler.instance.ShowSanctuaryMoveButton(true);
+            selectPan.GetComponent<SelectPan>().Initialize(arPrefabs[4], originalPos);
 
         }
         else if (currentObjectIndex != 4)
         {
-            outlineSelection.SetActive(false);
+            selectPan.SetActive(false);
             arCurrentActiveObject = Instantiate(arPrefabs[modelIndexToSwitchTo], originalPos);
         }
 
@@ -181,15 +175,6 @@ public class ImageTracker : MonoBehaviour
 
     }
 
-    private void SanctuaryAddNewPan()
-    {
-        sanctuaryPansList.Add(Instantiate(arPrefabs[4], originalPos));
-    }
-
-    public void SwapMoveAndRotate()
-    {
-        PanScript.isMove = !PanScript.isMove;
-    }
-    
+ 
     
 }

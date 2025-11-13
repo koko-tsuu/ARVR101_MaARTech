@@ -66,6 +66,16 @@ public  class StaticUIHandler : MonoBehaviour
         sanctuaryAddButton.SetActive(value);
     }
 
+    public void ShowSanctuaryEditButton(bool value)
+    {
+        sanctuaryEditButton.SetActive(value);
+    }
+
+     public void ShowSanctuaryMoveButton(bool value)
+    {
+        sanctuaryMoveButton.SetActive(value);
+    }
+
     public void HideAllSanctuaryUI()
     {
         sanctuaryAddButton.SetActive(false);
@@ -109,6 +119,7 @@ public  class StaticUIHandler : MonoBehaviour
             sanctuaryRotateButton.SetActive(false);
         }
     }
+
     
     
 

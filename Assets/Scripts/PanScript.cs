@@ -11,6 +11,14 @@ public class PanScript : MonoBehaviour
     public static bool isMove = true;
     UnityEngine.Vector3 touchPosition;
 
+    private float torque = 1.0f;
+    private Rigidbody rb;
+    
+    void Start()
+    {
+        rb = GetComponent<Rigidbody>();
+    }
+
     private UnityEngine.Vector3 GetTouchPos()
     {
         return Camera.main.WorldToScreenPoint(transform.position);
@@ -18,8 +26,10 @@ public class PanScript : MonoBehaviour
 
     private void OnMouseDown()
     {
-        touchPosition = Input.mousePosition - GetTouchPos();
-        OutlineSelection.instance.Highlight(this.gameObject.transform);
+        if (isMove)
+            touchPosition = Input.mousePosition - GetTouchPos();
+        
+        SelectPan.instance.Highlight(this.gameObject.transform);
         
     }
 
@@ -29,12 +39,8 @@ public class PanScript : MonoBehaviour
             transform.position = Camera.main.ScreenToWorldPoint(Input.mousePosition - touchPosition);
         else
         {
-            Touch screenTouch = Input.GetTouch(0);
-            if (screenTouch.phase == TouchPhase.Moved)
-            {
-                transform.Rotate(0f, screenTouch.deltaPosition.x, 0f);
-            }
+            rb.AddTorque(UnityEngine.Vector3.up * torque * -Input.GetAxis("Mouse X"));
+            rb.AddTorque(UnityEngine.Vector3.right * torque * Input.GetAxis("Mouse Y"));
         }
     }
-
 }
