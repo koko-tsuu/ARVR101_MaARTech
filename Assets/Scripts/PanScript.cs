@@ -9,6 +9,8 @@ using UnityEngine.EventSystems;
 public class PanScript : MonoBehaviour
 {
     public static bool isMove = true;
+    float minRange = -1.5f;
+    float maxRange = 1.5f;
     UnityEngine.Vector3 touchPosition;
 
     private float torque = 1.0f;
@@ -17,6 +19,11 @@ public class PanScript : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody>();
+    }
+
+    void Update()
+    {
+        transform.position = new UnityEngine.Vector3(Mathf.Clamp(transform.position.x, minRange, maxRange), Mathf.Clamp(transform.position.y, 0f, maxRange), Mathf.Clamp(transform.position.z, minRange, maxRange));
     }
 
     private UnityEngine.Vector3 GetTouchPos()

@@ -14,7 +14,6 @@ public class SelectPan : MonoBehaviour
     public GameObject panPrefab;
     public Transform originalPos;
 
-    private bool wasButtonClicked = false;
 
     void Awake()
     {
@@ -35,9 +34,9 @@ public class SelectPan : MonoBehaviour
 
                 Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
                 RaycastHit hit;
-                // if (!Physics.Raycast(ray, out hit, 100))
-                //     RemoveHighlight();
-
+                //if (!Physics.Raycast(ray, out hit, 100))
+                 //   RemoveHighlight();
+            
         
             }
     }
