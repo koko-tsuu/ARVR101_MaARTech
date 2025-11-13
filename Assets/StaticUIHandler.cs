@@ -16,6 +16,9 @@ public  class StaticUIHandler : MonoBehaviour
     [SerializeField] private GameObject stairsResetButton;
     [SerializeField] private GameObject stairsText;
     [SerializeField] private GameObject sanctuaryAddButton;
+    [SerializeField] private GameObject sanctuaryEditButton;
+    [SerializeField] private GameObject sanctuaryMoveButton;
+    [SerializeField] private GameObject sanctuaryRotateButton;
     // Start is called before the first frame update
     private void Awake()
     {
@@ -63,6 +66,14 @@ public  class StaticUIHandler : MonoBehaviour
         sanctuaryAddButton.SetActive(value);
     }
 
+    public void HideAllSanctuaryUI()
+    {
+        sanctuaryAddButton.SetActive(false);
+        sanctuaryEditButton.SetActive(false);
+        sanctuaryMoveButton.SetActive(false);
+        sanctuaryRotateButton.SetActive(false);
+    }
+
     public void ShowStairsWinText()
     {
         stairsText.GetComponent<TextMeshProUGUI>().text = "The strange being has granted you access!";
@@ -79,6 +90,27 @@ public  class StaticUIHandler : MonoBehaviour
     {
         stairsText.SetActive(false);
     }
+
+    public void HideMenu()
+    {
+        menuPanel.SetActive(false);
+    }
+
+    public void SwapMoveRotateButtons()
+    {
+        if (sanctuaryMoveButton.activeInHierarchy)
+        {
+            sanctuaryMoveButton.SetActive(false);
+            sanctuaryRotateButton.SetActive(true);
+        }
+        else
+        {
+            sanctuaryMoveButton.SetActive(true);
+            sanctuaryRotateButton.SetActive(false);
+        }
+    }
+    
+    
 
 
 }

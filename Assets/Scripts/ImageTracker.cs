@@ -11,10 +11,13 @@ public class ImageTracker : MonoBehaviour
     public static ImageTracker instance { get; private set; }
 
     private ARTrackedImageManager trackedImages;
+    [SerializeField] private GameObject outlineSelection;
+    
     [SerializeField] private GameObject groundPrefab;
     [SerializeField] private GameObject[] arPrefabs;
-    private int currentObjectIndex;
+    private int currentObjectIndex = 0;
     private GameObject arCurrentActiveObject;
+    private List<GameObject> sanctuaryPansList = new List<GameObject>();
 
     private Transform originalPos;
 
@@ -24,7 +27,17 @@ public class ImageTracker : MonoBehaviour
 
     void Awake()
     {
-        trackedImages = GetComponent<ARTrackedImageManager>();
+        if (instance != null)
+        {
+            Debug.Log("Found more than one ImageTracker Manager in the scene. Destroying the newest one.");
+            Destroy(this.gameObject);
+            return;
+        }
+        instance = this;
+
+        trackedImages = GetComponent<ARTrackedImageManager>();     
+      
+    
     }
 
     void OnEnable()
@@ -45,7 +58,6 @@ public class ImageTracker : MonoBehaviour
         // note: we'll be only using one image to track for all objects so [0]
         if (eventArgs.added.Count != 0)
         {
-            Debug.Log("got here");
             originalPos = eventArgs.added[0].transform;
             arCurrentActiveObject = Instantiate(arPrefabs[0], eventArgs.added[0].transform);
 
@@ -55,14 +67,31 @@ public class ImageTracker : MonoBehaviour
         //Update tracking position
         if (eventArgs.updated.Count != 0)
         {
-            foreach (Transform child in arCurrentActiveObject.transform)
+
+            if (currentObjectIndex != 4)
             {
-                if (child.GetComponent<Renderer>() != null)
+                foreach (Transform child in arCurrentActiveObject.transform)
                 {
-                    // using enabled instead to not reset object progress
-                    child.GetComponent<Renderer>().enabled = eventArgs.updated[0].trackingState == TrackingState.Tracking;
+                    if (child.GetComponent<Renderer>() != null)
+                    {
+                        // using enabled instead to not reset object progress
+                        child.GetComponent<Renderer>().enabled = eventArgs.updated[0].trackingState == TrackingState.Tracking;
+                    }
                 }
             }
+            
+            else
+            {
+                foreach (GameObject child in sanctuaryPansList)
+                {
+                    if (child.GetComponent<Renderer>() != null)
+                    {
+                        // using enabled instead to not reset object progress
+                        child.GetComponent<Renderer>().enabled = eventArgs.updated[0].trackingState == TrackingState.Tracking;
+                    }
+                }
+            }
+            
             // we don't want to use setActive to false because it resets the current object if the user fails to track it
             //arCurrentActiveObject.SetActive(eventArgs.updated[0].trackingState == TrackingState.Tracking);
 
@@ -73,8 +102,16 @@ public class ImageTracker : MonoBehaviour
 
     public void ResetObjectProgress()
     {
-        arCurrentActiveObject.SetActive(false);
-        arCurrentActiveObject.SetActive(true);
+
+        if (currentObjectIndex != 4)
+        {
+            arCurrentActiveObject.SetActive(false);
+            arCurrentActiveObject.SetActive(true);
+
+        }
+
+        else
+            ClearSanctuaryItems();
 
         StaticUIHandler.instance.ShowResetWarningPanel(false);
 
@@ -86,40 +123,65 @@ public class ImageTracker : MonoBehaviour
 
 
     }
+    
+    private void ClearSanctuaryItems()
+    {
+        for (int i = 0; i < sanctuaryPansList.Count; i++)
+            Destroy(sanctuaryPansList[i]);
+
+        sanctuaryPansList.Clear();
+    }
 
     public void StoreIndexAndDisplaySwitchWarningMessage(int index)
     {
         StaticUIHandler.instance.ShowSwitchModelWarningPanel(true);
         modelIndexToSwitchTo = index;
     }
-    
+
     public void ChangeActiveObject()
     {
-        //StaticUIHandler.instance.s
-        Destroy(arCurrentActiveObject);
+        if (currentObjectIndex != 4)
+            Destroy(arCurrentActiveObject);
 
-        arCurrentActiveObject = Instantiate(arPrefabs[modelIndexToSwitchTo], originalPos);
+        else
+            ClearSanctuaryItems();
+
         currentObjectIndex = modelIndexToSwitchTo;
-
+        
+        StaticUIHandler.instance.HideMenu();
         StaticUIHandler.instance.ShowResetWarningPanel(false);
         StaticUIHandler.instance.ShowSwitchModelWarningPanel(false);
+        StaticUIHandler.instance.ShowSanctuaryAddButton(false);
+        StaticUIHandler.instance.ShowStairsResetButton(false);
 
         if (currentObjectIndex == 4)
         {
             StaticUIHandler.instance.ShowSanctuaryAddButton(true);
+            outlineSelection.SetActive(true);
+            SanctuaryAddNewPan();
+
         }
         else if (currentObjectIndex != 4)
         {
-            StaticUIHandler.instance.ShowSanctuaryAddButton(false);
+            outlineSelection.SetActive(false);
+            arCurrentActiveObject = Instantiate(arPrefabs[modelIndexToSwitchTo], originalPos);
         }
 
-        if (currentObjectIndex == 0)
-        {
-            StaticUIHandler.instance.ShowStairsResetButton(false);
-        }
 
         if (aRScale.objectToScale != null)
             arCurrentActiveObject.transform.localScale = aRScale.objectToScale.transform.localScale; // save previous scale
 
     }
+
+    private void SanctuaryAddNewPan()
+    {
+        sanctuaryPansList.Add(Instantiate(arPrefabs[4], originalPos));
+    }
+
+    public void SwapMoveAndRotate()
+    {
+        PanScript.isMove = !PanScript.isMove;
+    }
+    
+    
 }

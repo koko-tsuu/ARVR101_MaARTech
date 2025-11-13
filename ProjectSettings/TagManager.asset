@@ -6,6 +6,7 @@ TagManager:
   tags:
   - upper_teeth
   - lower_teeth
+  - pan
   layers:
   - Default
   - TransparentFX

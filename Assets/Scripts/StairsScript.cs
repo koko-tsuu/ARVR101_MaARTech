@@ -89,6 +89,7 @@ public class StairsScript : MonoBehaviour
                     Debug.Log("oops! you inputted the wrong code");
                     ResetTeeth();
                     mAnimator.SetTrigger("Monch");
+                    isAnimationPlaying = true;
                     StaticUIHandler.instance.ShowStairsLoseText();
                     StaticUIHandler.instance.ShowStairsResetButton(true);
 
@@ -147,7 +148,7 @@ public class StairsScript : MonoBehaviour
     {
 
         // no ResetTeeth() here since before the monching happens, teeth are already reset.
-        mAnimator.SetTrigger("Idle");
+        mAnimator.CrossFade("Idle", 0f);
         inputtedCode = "";
         isAnimationPlaying = false;
         randomIndex = UnityEngine.Random.Range(0, 6);
