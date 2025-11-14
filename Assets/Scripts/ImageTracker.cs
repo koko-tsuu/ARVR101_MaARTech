@@ -83,13 +83,10 @@ public class ImageTracker : MonoBehaviour
             
             else
             {
-                foreach (GameObject child in selectPan.GetComponent<SelectPan>().sanctuaryPansList)
+                List<GameObject> sanctuaryPansList = selectPan.GetComponent<SelectPan>().sanctuaryPansList;
+                for (int i = 0; i < sanctuaryPansList.Count; i++)
                 {
-                    if (child.GetComponent<Renderer>() != null)
-                    {
-                        // using enabled instead to not reset object progress
-                        child.GetComponent<Renderer>().enabled = eventArgs.updated[0].trackingState == TrackingState.Tracking;
-                    }
+                    sanctuaryPansList[i].transform.GetChild(0).gameObject.SetActive(eventArgs.updated[0].trackingState == TrackingState.Tracking);
                 }
             }
             

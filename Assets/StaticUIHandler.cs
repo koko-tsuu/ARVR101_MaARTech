@@ -17,6 +17,7 @@ public  class StaticUIHandler : MonoBehaviour
     [SerializeField] private GameObject stairsText;
     [SerializeField] private GameObject sanctuaryAddButton;
     [SerializeField] private GameObject sanctuaryEditButton;
+    [SerializeField] private GameObject sanctuaryEditPanel;
     [SerializeField] private GameObject sanctuaryMoveButton;
     [SerializeField] private GameObject sanctuaryRotateButton;
     // Start is called before the first frame update
@@ -76,12 +77,18 @@ public  class StaticUIHandler : MonoBehaviour
         sanctuaryMoveButton.SetActive(value);
     }
 
+    public void ShowSanctuaryEditPanel(bool value)
+    {
+        sanctuaryEditPanel.SetActive(value);
+    }
+
     public void HideAllSanctuaryUI()
     {
         sanctuaryAddButton.SetActive(false);
         sanctuaryEditButton.SetActive(false);
         sanctuaryMoveButton.SetActive(false);
         sanctuaryRotateButton.SetActive(false);
+        sanctuaryEditPanel.SetActive(false);
     }
 
     public void ShowStairsWinText()
