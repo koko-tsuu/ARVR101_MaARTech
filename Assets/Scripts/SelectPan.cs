@@ -49,6 +49,19 @@ public class SelectPan : MonoBehaviour
         instance = this;
 
     }
+
+    void Update()
+    {
+        if (highlight == null)
+        {
+            StaticUIHandler.instance.ShowSanctuaryEditButton(false);
+            StaticUIHandler.instance.ShowSanctuaryEditPanel(false);
+        }
+        else
+        {
+            StaticUIHandler.instance.ShowSanctuaryEditButton(true);
+        }
+    }
     
     public void Highlight(Transform transform)
     {
@@ -75,7 +88,7 @@ public class SelectPan : MonoBehaviour
         highlight = transform;
         transform.gameObject.GetComponent<Outline>().enabled = true;
 
-        StaticUIHandler.instance.ShowSanctuaryEditButton(true);
+        
         ReloadEditPanel();
 
     }
@@ -86,7 +99,7 @@ public class SelectPan : MonoBehaviour
         if (highlight != null)
             highlight.gameObject.GetComponent<Outline>().enabled = false;
         highlight = null;
-        StaticUIHandler.instance.ShowSanctuaryEditButton(false);
+        
     }
 
 
