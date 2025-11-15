@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Numerics;
+using Microsoft.Unity.VisualStudio.Editor;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -10,13 +11,18 @@ using UnityEngine.EventSystems;
 public class PanScript : MonoBehaviour
 {
     [Header("Edit Pan Variables")]
-    bool isEmittingWords = true;
+    public bool isEmittingWords = true;
     public string word = "Hello World!";
 
     public int fontSelectedIndex = 0;
     public static bool isMove = true;
 
     public Color panColor;
+
+    public Sprite previewSprite;
+
+    public float spawnRate = 0f;
+    public float startSize = 0f;
     
     bool isTracking;
     float minRange = -1f;
@@ -35,7 +41,11 @@ public class PanScript : MonoBehaviour
     void OnEnable()
     {
         isTracking = true;
-        StartCoroutine(EmitText());
+
+        if (isEmittingWords)
+            StartEmittingText();
+        else
+            StartEmittingParticles();
          
     }
 
@@ -57,6 +67,18 @@ public class PanScript : MonoBehaviour
             DynamicTextManager.CreateText(RandomizeVector(this.transform), word, DynamicTextManager.defaultData[fontSelectedIndex]);
 
         }
+    }
+
+    public void StartEmittingText()
+    {
+        StartCoroutine(EmitText());
+        this.gameObject.transform.GetChild(0).gameObject.SetActive(false);
+    }
+
+    public void StartEmittingParticles()
+    {
+        // setting isEmittingText to false auto finishes the coroutine of emitting text
+        this.gameObject.transform.GetChild(0).gameObject.SetActive(true);
     }
 
     UnityEngine.Vector3 RandomizeVector(Transform transform)

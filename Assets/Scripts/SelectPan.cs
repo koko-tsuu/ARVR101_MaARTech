@@ -5,6 +5,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
+using System.IO;
 
 public class SelectPan : MonoBehaviour
 {
@@ -12,11 +13,21 @@ public class SelectPan : MonoBehaviour
     public static SelectPan instance { get; private set; }
     private Transform highlight;
     public List<GameObject> sanctuaryPansList = new List<GameObject>();
-
+    [SerializeField] private TMP_Dropdown emissionDropdown;
     [SerializeField] private TMP_Dropdown fontDropdown;
     [SerializeField] private TMP_InputField textInputField;
     [SerializeField] private TMP_InputField fontSizeInputField;
 
+    [SerializeField] private TMP_InputField particleSizeInputField;
+    
+    [SerializeField] private TMP_InputField spawnRateInputField;
+   
+    
+    [SerializeField] private GameObject previewImage;
+    [SerializeField] private GameObject noImagePresentText;
+    [SerializeField] private GameObject customizeParticleTextPanel;
+    [SerializeField] private GameObject customizeParticleImagePanel;
+  
     [SerializeField] private Button panColorButton;
     [SerializeField] private Button fontColorButton;
 
@@ -65,6 +76,7 @@ public class SelectPan : MonoBehaviour
         transform.gameObject.GetComponent<Outline>().enabled = true;
 
         StaticUIHandler.instance.ShowSanctuaryEditButton(true);
+        ReloadEditPanel();
 
     }
 
@@ -102,12 +114,10 @@ public class SelectPan : MonoBehaviour
     {
         for (int i = 0; i < sanctuaryPansList.Count; i++)
         {
-            Debug.Log("got here1");
-            Debug.Log(highlight.parent.gameObject.name);
-            Debug.Log(sanctuaryPansList[i].name);
+
             if (highlight.parent.gameObject == sanctuaryPansList[i])
             {
-                Debug.Log("got here");
+    
                 Destroy(sanctuaryPansList[i]);
                 sanctuaryPansList.RemoveAt(i);
                 highlight = null;
@@ -123,20 +133,62 @@ public class SelectPan : MonoBehaviour
     public void EditPan()
     {
         StaticUIHandler.instance.ShowSanctuaryEditPanel(true);
+        
+    }
 
+    private void ReloadEditPanel()
+    {
         // load everything
         // to put the emitting words here
         PanScript loadPanEdit =  highlight.gameObject.GetComponent<PanScript>();
-
-        fontDropdown.value = loadPanEdit.fontSelectedIndex;
-        textInputField.text = loadPanEdit.word;
-        fontSizeInputField.text = DynamicTextManager.defaultData[loadPanEdit.fontSelectedIndex].sizes[0].ToString();
-
         panColorButton.GetComponent<Image>().color =  loadPanEdit.panColor;
-        fontColorButton.GetComponent<Image>().color = DynamicTextManager.defaultData[loadPanEdit.fontSelectedIndex].colours[0];
 
         flexibleColorPicker_PanColor.color = loadPanEdit.panColor;
-        flexibleColorPicker_TextColor.color = DynamicTextManager.defaultData[loadPanEdit.fontSelectedIndex].colours[0];
+
+        spawnRateInputField.text = loadPanEdit.spawnRate.ToString();
+        particleSizeInputField.text = loadPanEdit.startSize.ToString();
+
+
+        if (loadPanEdit.isEmittingWords)
+        {
+            emissionDropdown.value = 0;
+            customizeParticleTextPanel.SetActive(true);
+            customizeParticleImagePanel.SetActive(false);
+            fontDropdown.value = loadPanEdit.fontSelectedIndex;
+            textInputField.text = loadPanEdit.word;
+            fontSizeInputField.text = DynamicTextManager.defaultData[loadPanEdit.fontSelectedIndex].sizes[0].ToString();
+
+            fontColorButton.GetComponent<Image>().color = DynamicTextManager.defaultData[loadPanEdit.fontSelectedIndex].colours[0];
+            flexibleColorPicker_TextColor.color = DynamicTextManager.defaultData[loadPanEdit.fontSelectedIndex].colours[0];
+
+        }
+        else {
+            emissionDropdown.value = 1;
+            customizeParticleTextPanel.SetActive(false);
+            customizeParticleImagePanel.SetActive(true);
+            
+            spawnRateInputField.text = loadPanEdit.spawnRate.ToString();
+            particleSizeInputField.text = loadPanEdit.startSize.ToString();
+
+            
+
+
+            if (loadPanEdit.previewSprite == null)
+            {
+                previewImage.SetActive(false);
+                noImagePresentText.SetActive(true);
+            }
+        
+            else
+            {
+                previewImage.SetActive(true);
+                noImagePresentText.SetActive(false);
+                previewImage.GetComponent<Image>().sprite = loadPanEdit.previewSprite;
+            }
+        }
+
+        
+        
     }
 
     public void RemoveEditPanPanel()
@@ -178,6 +230,125 @@ public class SelectPan : MonoBehaviour
     {
         PanScript.isMove = !PanScript.isMove;
         StaticUIHandler.instance.SwapMoveRotateButtons();
+    }
+
+    public void ChangeEmission()
+    {
+        PanScript panScript = highlight.GetComponent<PanScript>();
+
+        if (emissionDropdown.value == 0)
+        {
+            customizeParticleTextPanel.SetActive(true);
+            customizeParticleImagePanel.SetActive(false);
+            panScript.isEmittingWords = true;
+            panScript.StartEmittingText();     
+            
+        }
+        else
+        {
+            customizeParticleTextPanel.SetActive(false);
+            customizeParticleImagePanel.SetActive(true);
+            panScript.isEmittingWords = false;
+            panScript.StartEmittingParticles();
+        }
+
+        ReloadEditPanel();
+    }
+
+     public void LoadUserTexture()
+    {
+        
+        #if UNITY_STANDALONE || UNITY_EDITOR
+                string path = UnityEditor.EditorUtility.OpenFilePanel(
+                    "Select an Image", "", "png,jpg,jpeg");
+
+                if (!string.IsNullOrEmpty(path))
+                {
+                    StartCoroutine(LoadTextureFromFile(path));
+                }
+        #elif UNITY_ANDROID
+                string mobilePath = "";
+                if(NativeFilePicker.CheckPermission(true))
+                {
+                    
+                    NativeFilePicker.PickFile((mobilePath) =>
+                    {
+                        if (mobilePath == null)
+                        {
+                            Debug.Log("Canceled file operation");
+                        }
+                        else 
+                            StartCoroutine(LoadTextureFromFile(mobilePath));
+                    }, new string[] {"image/*"});
+                }
+                else
+                {
+                    NativeFilePicker.RequestPermissionAsync(true);
+                }
+                
+        #endif
+       
+
+    }
+
+    public void ChangeSpawnRate()
+    {
+         if (float.TryParse(spawnRateInputField.text, out float result))
+        {
+            ParticleSystem particleSystem = highlight.GetChild(0).GetComponent<ParticleSystem>();
+            ParticleSystem.EmissionModule emissionModule = particleSystem.emission;
+
+            emissionModule.rateOverTime = result;
+            highlight.GetComponent<PanScript>().spawnRate = result;
+        }
+    }
+
+    public void ChangeParticleSize()
+    {
+         if (float.TryParse(particleSizeInputField.text, out float result))
+        {
+            ParticleSystem particleSystem = highlight.GetChild(0).GetComponent<ParticleSystem>();
+            ParticleSystem.MainModule mainModule = particleSystem.main;
+
+            mainModule.startSize = result;
+            highlight.GetComponent<PanScript>().startSize = result;
+        }
+        
+         
+    }
+
+    private IEnumerator LoadTextureFromFile(string path)
+    {
+        ParticleSystem particleSystem = highlight.GetChild(0).GetComponent<ParticleSystem>();
+        var renderer = particleSystem.GetComponent<ParticleSystemRenderer>();
+
+    
+        // Create Texture2D from image
+        byte[] fileData = File.ReadAllBytes(path);
+        Texture2D tex = new Texture2D(2, 2);
+        tex.LoadImage(fileData); // Auto-resizes the texture
+
+        // Create a new material
+        Material newMaterial = new Material(Shader.Find("Standard")); // Use the Standard Shade
+
+        // Assign the loaded texture to the material's Albedo map
+        newMaterial.mainTexture = tex;
+        
+        // Assign to Particle System Renderer
+        renderer.material = newMaterial;
+
+        // Update preview sprite
+        Sprite previewSprite = Sprite.Create(tex, new Rect(0, 0, tex.width, tex.height), Vector2.zero, 100);
+        previewImage.GetComponent<Image>().sprite = previewSprite;
+        highlight.GetComponent<PanScript>().previewSprite = previewSprite;
+        
+        noImagePresentText.SetActive(false);
+        previewImage.SetActive(true);
+
+        particleSystem.Clear();
+        particleSystem.Play();
+
+        yield return null;
     }
     
     

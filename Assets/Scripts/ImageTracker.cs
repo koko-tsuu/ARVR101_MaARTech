@@ -86,13 +86,11 @@ public class ImageTracker : MonoBehaviour
                 List<GameObject> sanctuaryPansList = selectPan.GetComponent<SelectPan>().sanctuaryPansList;
                 for (int i = 0; i < sanctuaryPansList.Count; i++)
                 {
-                    sanctuaryPansList[i].transform.GetChild(0).gameObject.SetActive(eventArgs.updated[0].trackingState == TrackingState.Tracking);
+                    sanctuaryPansList[i].SetActive(eventArgs.updated[0].trackingState == TrackingState.Tracking);
                 }
             }
-            
-            // we don't want to use setActive to false because it resets the current object if the user fails to track it
-            //arCurrentActiveObject.SetActive(eventArgs.updated[0].trackingState == TrackingState.Tracking);
 
+       
 
         }
 
@@ -150,6 +148,7 @@ public class ImageTracker : MonoBehaviour
         StaticUIHandler.instance.ShowResetWarningPanel(false);
         StaticUIHandler.instance.ShowSwitchModelWarningPanel(false);
         StaticUIHandler.instance.ShowSanctuaryAddButton(false);
+        StaticUIHandler.instance.HideStairsText();
         StaticUIHandler.instance.ShowStairsResetButton(false);
 
         if (currentObjectIndex == 4)
