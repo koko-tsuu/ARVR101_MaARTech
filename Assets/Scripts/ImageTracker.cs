@@ -66,11 +66,13 @@ public class ImageTracker : MonoBehaviour
         }
 
         //Update tracking position
+        /*
         if (eventArgs.updated.Count != 0)
         {
 
             if (currentObjectIndex != 4)
             {
+                
                 foreach (Transform child in arCurrentActiveObject.transform)
                 {
                     if (child.GetComponent<Renderer>() != null)
@@ -79,20 +81,25 @@ public class ImageTracker : MonoBehaviour
                         child.GetComponent<Renderer>().enabled = eventArgs.updated[0].trackingState == TrackingState.Tracking;
                     }
                 }
+                
             }
             
             else
             {
+                
                 List<GameObject> sanctuaryPansList = selectPan.GetComponent<SelectPan>().sanctuaryPansList;
                 for (int i = 0; i < sanctuaryPansList.Count; i++)
                 {
                     sanctuaryPansList[i].SetActive(eventArgs.updated[0].trackingState == TrackingState.Tracking);
                 }
+                
             }
 
+        
        
 
         }
+        */
 
     }
 
@@ -132,6 +139,11 @@ public class ImageTracker : MonoBehaviour
     {
         StaticUIHandler.instance.ShowSwitchModelWarningPanel(true);
         modelIndexToSwitchTo = index;
+    }
+
+    public GameObject GetPrefab(int index)
+    {
+        return arPrefabs[index];
     }
 
     public void ChangeActiveObject()

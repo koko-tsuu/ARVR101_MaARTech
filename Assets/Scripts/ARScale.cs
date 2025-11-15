@@ -41,14 +41,18 @@ public class ARScale : MonoBehaviour
     {
         if (Input.touchCount > 0)
         {
+
             RaycastHit hit;
-            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            Ray ray = Camera.main.ScreenPointToRay(Input.GetTouch(0).position);
+            
             if (Physics.Raycast(ray, out hit, 100))
             {
                 objectToScale = hit.transform.gameObject;
+                Debug.Log(objectToScale.name);
             }
             if (Input.touchCount >= 2)
             {
+
                 Touch touch0 = Input.GetTouch(0);
                 Touch touch1 = Input.GetTouch(1);
                 if (touch0.phase == TouchPhase.Began || touch1.phase == TouchPhase.Began)
@@ -68,6 +72,7 @@ public class ARScale : MonoBehaviour
                     
                 }
             }
+            
         }
         
     }

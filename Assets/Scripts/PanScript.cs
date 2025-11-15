@@ -55,7 +55,7 @@ public class PanScript : MonoBehaviour
 
     void Update()
     {
-        transform.position = new UnityEngine.Vector3(Mathf.Clamp(transform.position.x, minRange, maxRange), Mathf.Clamp(transform.position.y, 0f, maxRange), Mathf.Clamp(transform.position.z, minRange, maxRange));
+        transform.position = new UnityEngine.Vector3(Mathf.Clamp(transform.position.x, minRange, maxRange), Mathf.Clamp(transform.position.y, minRange, maxRange), Mathf.Clamp(transform.position.z, minRange, maxRange));
     }
 
     IEnumerator EmitText()
