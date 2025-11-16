@@ -35,7 +35,6 @@ public class SelectPan : MonoBehaviour
     [SerializeField] private FlexibleColorPicker flexibleColorPicker_TextColor;
 
     private GameObject panPrefab;
-    private Transform originalPos;
 
 
     void Awake()
@@ -111,16 +110,15 @@ public class SelectPan : MonoBehaviour
         sanctuaryPansList.Clear();
     }
 
-    public void Initialize(GameObject obj, Transform transform)
+    public void Initialize(GameObject obj)
     {
         panPrefab = obj;
-        originalPos = transform;
-        sanctuaryPansList.Add(Instantiate(obj, transform));
+        sanctuaryPansList.Add(Instantiate(obj, ImageTracker.instance.originalPos));
     }
 
     public void AddNewPan()
     {
-        sanctuaryPansList.Add(Instantiate(panPrefab, originalPos));
+        sanctuaryPansList.Add(Instantiate(panPrefab, ImageTracker.instance.originalPos));
     }
 
     public void RemovePan()

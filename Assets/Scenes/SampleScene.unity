@@ -14086,10 +14086,11 @@ MonoBehaviour:
   groundPrefab: {fileID: 7435205033868700236, guid: f52e1e65b85b5bf47bd4663449f1ebd6, type: 3}
   arPrefabs:
   - {fileID: 4985707504833364462, guid: 6ad478472ee02054880c1f653c825444, type: 3}
-  - {fileID: 4672733887325655320, guid: 3481ea6e842a7e34b98b395ba67af18b, type: 3}
-  - {fileID: 4602204476840158738, guid: 7ab0af2a63f644c489e8f2010053fcfe, type: 3}
+  - {fileID: 349855761635792514, guid: 319e8b82fc1fa914dbbadf4a92e13f0e, type: 3}
+  - {fileID: 6430100948487174407, guid: 798fa5f8d3ffe274bbe795047d74a817, type: 3}
   - {fileID: 7165615973380831300, guid: 8f54cb52184b675459ee376a0a37bc06, type: 3}
   - {fileID: 179050860967061319, guid: 6aee4ff488296b243b728c63255eaf91, type: 3}
+  originalPos: {fileID: 0}
   aRScale: {fileID: 1213574458}
 --- !u!1 &2073808729
 GameObject:

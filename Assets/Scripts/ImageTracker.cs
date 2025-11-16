@@ -20,7 +20,7 @@ public class ImageTracker : MonoBehaviour
     private GameObject arCurrentActiveObject;
 
 
-    private Transform originalPos;
+    public Transform originalPos;
 
     private int modelIndexToSwitchTo;
 
@@ -168,7 +168,7 @@ public class ImageTracker : MonoBehaviour
             StaticUIHandler.instance.ShowSanctuaryAddButton(true);
             selectPan.SetActive(true);
             StaticUIHandler.instance.ShowSanctuaryMoveButton(true);
-            selectPan.GetComponent<SelectPan>().Initialize(arPrefabs[4], originalPos);
+            selectPan.GetComponent<SelectPan>().Initialize(arPrefabs[4]);
 
         }
         else if (currentObjectIndex != 4)
