@@ -13,36 +13,43 @@ public class JudgementScript : MonoBehaviour
     private GameObject loofah;
     void Start()
     {
-        particleSystem.Pause();
-        loofah = Instantiate(loofahPrefab, ImageTracker.instance.originalPos.position + new UnityEngine.Vector3(0, 0.2f, 0), UnityEngine.Quaternion.identity);
+        Debug.Log("judgement room pos: " + this.transform.position);
+        
+        loofah = Instantiate(loofahPrefab, ImageTracker.instance.originalPos.position, UnityEngine.Quaternion.identity);
+        loofah.transform.parent = this.gameObject.transform;
+        loofah.GetComponent<LoofahScript>().loofahPrefab = loofahPrefab;
 
-        loofah.GetComponent<SphereCollider>().isTrigger = true;
-        loofah.GetComponent<Rigidbody>().useGravity = false;
+        Destroy(loofah.GetComponent<SphereCollider>());
+        Destroy(loofah.GetComponent<Rigidbody>());
     }
 
-    void OnCollisionEnter(Collision collision)
+    void OnEnable()
     {
-        if(collision.gameObject.tag == "loofah")
+        particleSystem.Stop();
+        light.intensity = 0;
+    }
+
+    void OnTriggerEnter(Collider other)
+    {
+        Debug.Log("collision hit");
+        if(other.gameObject.tag == "loofah")
         {
             Debug.Log("Loofah went in");
             StartCoroutine(FadeLightRoutine());
-            StartCoroutine(PlayThenPauseParticleSystem(3f));
+            StartCoroutine(PlayThenPauseParticleSystem(1.5f));
+
+            Destroy(other.gameObject);
             
         }
-    }
-
-    void OnDestroy()
-    {
-        Destroy(loofah);
     }
 
     IEnumerator FadeLightRoutine()
     {
         // Fade 0 → 3
-        yield return StartCoroutine(FadeIntensity(0f, 3f, 2f));
+        yield return StartCoroutine(FadeIntensity(0f, 3f, 1f));
 
         // Fade 3 → 0
-        yield return StartCoroutine(FadeIntensity(3f, 0f, 2f));
+        yield return StartCoroutine(FadeIntensity(3f, 0f, 1f));
     }
 
     IEnumerator FadeIntensity(float from, float to, float duration)
@@ -74,11 +81,10 @@ public class JudgementScript : MonoBehaviour
             yield return null; // wait for next frame
         }
 
-        particleSystem.Pause();
+        particleSystem.Stop();
 
     }
 
 
 
-    // upon loofah entering the collision enter
 }

@@ -17,4 +17,12 @@ public class HangoutScript : MonoBehaviour
         
     }
 
+    public void Reset()
+    {
+        foreach (GameObject obj in instantiatedObjects)
+            Destroy(obj);
+
+        instantiatedObjects.Clear();
+    }
+
 }

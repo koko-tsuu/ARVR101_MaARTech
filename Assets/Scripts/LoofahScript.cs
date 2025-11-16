@@ -13,12 +13,13 @@ public class LoofahScript : MonoBehaviour
     [SerializeField]private float ballSpeed = 0;
     [SerializeField]private Vector3 worldAngle;
     [SerializeField]private bool GetVelocity = false;
+    public GameObject loofahPrefab;
     //public GameObject[] woosh; //no
 //    public AudioClip ballAudio;  //yes
     private float comfortZone = 0.0f;
     private bool couldBeSwipe;
 
-    private float maxYDistance = -1f;
+
 
 
     void Start ()
@@ -32,7 +33,7 @@ public class LoofahScript : MonoBehaviour
 
     void Update()
     {
-        
+        /*
         if (Input.touchCount > 0)
         {
             Debug.Log("test");
@@ -87,8 +88,9 @@ public class LoofahScript : MonoBehaviour
                     touchEnd = touch.position;
                     GetSpeed();
                     GetAngle();
-                    GameObject ball = Instantiate(this.gameObject, new Vector3(0.0f,0,-3.0f), Quaternion.identity) as GameObject;
-                    // Destroy(ball.GetComponent<LoofahScript>());
+                    GameObject ball = Instantiate(loofahPrefab, new Vector3(0.0f,0,-3.0f), Quaternion.identity) as GameObject;
+                    Debug.Log("Instantiated");
+                    Destroy(ball.GetComponent<LoofahScript>());
                     ball.GetComponent<Rigidbody>().useGravity = true;
                     ball.GetComponent<Rigidbody>().AddForce(new Vector3((worldAngle.x * ballSpeed), (worldAngle.y * ballSpeed), (worldAngle.z * ballSpeed)));
                     
@@ -104,11 +106,69 @@ public class LoofahScript : MonoBehaviour
                 flickTime++;
             }
         }
+        */
 
+        // -------------------- MOUSE FLICK --------------------
+        if (Input.GetMouseButtonDown(0))
+        {
+            touchStart = Input.mousePosition;
+            couldBeSwipe = true;
+            GetVelocity = true;
+            flickTime = 0;
+        }
+
+        if (Input.GetMouseButton(0))
+        {
+            Vector2 current = Input.mousePosition;
+
+            if (Mathf.Abs(current.y - touchStart.y) < comfortZone)
+                couldBeSwipe = false;
+
+            if (GetVelocity)
+                flickTime++;
+        }
+
+        if (Input.GetMouseButtonUp(0))
+        {
+            touchEnd = Input.mousePosition;
+
+            float swipeDist = (touchEnd - touchStart).magnitude;
+
+            if (couldBeSwipe || swipeDist > comfortZone)
+            {
+                // Calculate velocity + angle
+                GetVelocity = false;
+                GetSpeed();
+                GetAngle();
+
+                // -------------------- FIXED SPAWN --------------------
+
+                GameObject ball = Instantiate(loofahPrefab, this.transform.position, Quaternion.identity);
+                ball.transform.parent = this.transform.parent;
+                
+                AddLoofahGravity(ball);
+
+                Rigidbody rb = ball.GetComponent<Rigidbody>();
+                rb.useGravity = true;
+
+                Vector3 force = new Vector3(
+                    worldAngle.x * ballSpeed,
+                    worldAngle.y * ballSpeed,
+                    worldAngle.z * ballSpeed
+                );
+
+                float maxForce = 15f; // your chosen limit
+
+                if (force.magnitude > maxForce)
+                {
+                    force = force.normalized * maxForce; // keep direction, limit strength
+                }
+
+                Debug.Log(force);
+                rb.AddForce(force, ForceMode.Impulse);
+            }
+        }
         
-        if (this.transform.position.y < maxYDistance)
-            Destroy(this.gameObject);
-            
     }
 
     void timeIncrease()
@@ -132,12 +192,22 @@ public class LoofahScript : MonoBehaviour
         {
             ballSpeed = -33;
         }
-        Debug.Log("flick was" + flickTime);
+        Debug.Log("flick was " + flickTime);
         flickTime = 5;
     }
 
     void GetAngle ()
     {
         worldAngle = Camera.main.ScreenToWorldPoint(new Vector3 (touchEnd.x, touchEnd.y + 50f, ((Camera.main.nearClipPlane - 50.0f))));
+    }
+
+    void AddLoofahGravity(GameObject ball)
+    {
+        ball.AddComponent<Rigidbody>();
+        ball.GetComponent<Rigidbody>().useGravity = true;
+
+        ball.AddComponent<LoofahOOB>();
+
+        Destroy(ball.GetComponent<LoofahScript>());
     }
 }

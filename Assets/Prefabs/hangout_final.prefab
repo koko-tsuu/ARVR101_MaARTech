@@ -166,6 +166,59 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!1 &86085871953779700
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1190283687876427721}
+  - component: {fileID: 2475722096481735717}
+  m_Layer: 6
+  m_Name: Collision1 (4)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1190283687876427721
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 86085871953779700}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 4361950790961839302}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &2475722096481735717
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 86085871953779700}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 64
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 4.2625527, y: 2.8667881, z: 0.121088624}
+  m_Center: {x: -0.73255897, y: 0.6959444, z: -1.405481}
 --- !u!1 &294414199750122666
 GameObject:
   m_ObjectHideFlags: 0
@@ -1753,7 +1806,7 @@ GameObject:
   m_Component:
   - component: {fileID: 910941591581832312}
   - component: {fileID: 1508060455154139620}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Collision1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1785,7 +1838,7 @@ BoxCollider:
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 64
   m_ExcludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -3726,7 +3779,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7573944270290768898}
   - component: {fileID: 8344067286658776140}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Collision1 (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3758,7 +3811,7 @@ BoxCollider:
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 64
   m_ExcludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -3797,7 +3850,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: -1, z: 0, w: 0}
   m_LocalPosition: {x: 0, y: 0, z: 0.5}
-  m_LocalScale: {x: 0.1, y: 0.1, z: 0.1}
+  m_LocalScale: {x: 0.05, y: 0.05, z: 0.05}
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 4220028279678563140}
@@ -3858,6 +3911,7 @@ Transform:
   - {fileID: 7585086680902020720}
   - {fileID: 4844867905031667552}
   - {fileID: 910941591581832312}
+  - {fileID: 1190283687876427721}
   - {fileID: 2080124780499627593}
   - {fileID: 7573944270290768898}
   - {fileID: 2877509695258310898}
@@ -4492,7 +4546,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2080124780499627593}
   - component: {fileID: 4375462898107129221}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Collision1 (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4524,7 +4578,7 @@ BoxCollider:
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 64
   m_ExcludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -4877,7 +4931,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2877509695258310898}
   - component: {fileID: 5676800823555807821}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Collision1 (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4909,7 +4963,7 @@ BoxCollider:
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 64
   m_ExcludeLayers:
     serializedVersion: 2
     m_Bits: 0

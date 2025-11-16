@@ -119,15 +119,21 @@ public class ImageTracker : MonoBehaviour
             StaticUIHandler.instance.ShowStairsResetButton(false);
             
         }
-        else if (currentObjectIndex != 4)
+        else if (currentObjectIndex == 3)
+        {
+            arCurrentActiveObject.GetComponent<HangoutScript>().Reset();
+        }
+        else if (currentObjectIndex == 4)
+        {
+            selectPan.GetComponent<SelectPan>().ClearSanctuaryItems();
+        }
+        else
         {
             arCurrentActiveObject.SetActive(false);
             arCurrentActiveObject.SetActive(true);
 
         }
-
-        else
-            selectPan.GetComponent<SelectPan>().ClearSanctuaryItems();
+       
 
         StaticUIHandler.instance.ShowResetWarningPanel(false);
 
