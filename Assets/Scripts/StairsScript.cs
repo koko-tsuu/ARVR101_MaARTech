@@ -15,6 +15,8 @@ public class StairsScript : MonoBehaviour
     private String inputtedCode = "";
     private String secretCode = "012345";
     private bool isAnimationPlaying = false;
+
+    private Material mat;
     void Start()
     {
         mAnimator = GetComponent<Animator>();
@@ -28,6 +30,11 @@ public class StairsScript : MonoBehaviour
             upperTeethArray[i].index = i;
             lowerTeethArray[i].index = i;
         }
+
+        mat = upperTeethArray[0].GetComponent<Renderer>().sharedMaterial;
+        mat.EnableKeyword("_EMISSION");
+
+        StartCoroutine(PulseEmission());
     }
 
     // Update is called once per frame
@@ -53,6 +60,41 @@ public class StairsScript : MonoBehaviour
                         ClickUpperTeeth(hit.transform.parent);
 
                 }
+            }
+        }
+
+
+    }
+
+     private IEnumerator PulseEmission()
+    {
+        float duration = 1f;   // speed of the pulse
+
+        Color black = Color.black;
+        Color white = Color.white;
+
+        while (!isAnimationPlaying)
+        {
+            // BLACK → WHITE
+            float t = 0f;
+            while (t < duration)
+            {
+                t += Time.deltaTime;
+                float smooth = Mathf.SmoothStep(0f, 1f, t / duration);
+
+                mat.SetColor("_EmissionColor", Color.Lerp(black, white, smooth));
+                yield return null;
+            }
+
+            // WHITE → BLACK
+            t = 0f;
+            while (t < duration)
+            {
+                t += Time.deltaTime;
+                float smooth = Mathf.SmoothStep(0f, 1f, t / duration);
+
+                mat.SetColor("_EmissionColor", Color.Lerp(white, black, smooth));
+                yield return null;
             }
         }
     }
@@ -155,6 +197,7 @@ public class StairsScript : MonoBehaviour
         remainingUpperTeeth = 6;
 
         Debug.Log("random index picked: " + randomIndex);
+        StartCoroutine(PulseEmission());
         
 
     }

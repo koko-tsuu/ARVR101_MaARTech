@@ -12,7 +12,7 @@ public class MenuClickOutsideWindow : MonoBehaviour, IPointerClickHandler
     public void OnPointerClick(PointerEventData eventData)
     {
 
-        if (eventData.selectedObject != menuPanel && menuPanel.activeInHierarchy)
+        if (eventData.selectedObject != menuPanel && !StaticUIHandler.instance.CheckIfAnyPanelIsActive())
             menuPanel.SetActive(false);
 
         if (eventData.selectedObject != flexibleColorPicker_PanColor && flexibleColorPicker_PanColor.activeInHierarchy)

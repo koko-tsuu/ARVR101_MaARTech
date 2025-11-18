@@ -119,6 +119,19 @@ public class ImageTracker : MonoBehaviour
             StaticUIHandler.instance.ShowStairsResetButton(false);
             
         }
+        else if (currentObjectIndex == 1)
+        {
+            Destroy(arCurrentActiveObject);
+            arCurrentActiveObject = Instantiate(arPrefabs[2], originalPos);
+            
+        }
+        else if (currentObjectIndex == 2)
+        {
+            Destroy(arCurrentActiveObject);
+            arCurrentActiveObject = Instantiate(arPrefabs[2], originalPos);
+            StaticUIHandler.instance.HideStairsText();
+
+        }
         else if (currentObjectIndex == 3)
         {
             arCurrentActiveObject.GetComponent<HangoutScript>().Reset();
@@ -127,12 +140,7 @@ public class ImageTracker : MonoBehaviour
         {
             selectPan.GetComponent<SelectPan>().ClearSanctuaryItems();
         }
-        else
-        {
-            arCurrentActiveObject.SetActive(false);
-            arCurrentActiveObject.SetActive(true);
-
-        }
+       
        
 
         StaticUIHandler.instance.ShowResetWarningPanel(false);

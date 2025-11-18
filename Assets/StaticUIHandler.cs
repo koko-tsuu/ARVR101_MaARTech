@@ -96,6 +96,12 @@ public  class StaticUIHandler : MonoBehaviour
         stairsText.GetComponent<TextMeshProUGUI>().text = "The strange being has granted you access!";
         stairsText.SetActive(true);
     }
+
+    public void ShowIdeationWinText()
+    {
+        stairsText.GetComponent<TextMeshProUGUI>().text = "You've come up with an idea!";
+        stairsText.SetActive(true);
+    }
     
     public void ShowStairsLoseText()
     {
