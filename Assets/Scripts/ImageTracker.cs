@@ -24,7 +24,7 @@ public class ImageTracker : MonoBehaviour
 
     private int modelIndexToSwitchTo;
 
-    [SerializeField] private ARScale aRScale;
+    // [SerializeField] private ARScale aRScale;
 
     void Awake()
     {
@@ -122,7 +122,7 @@ public class ImageTracker : MonoBehaviour
         else if (currentObjectIndex == 1)
         {
             Destroy(arCurrentActiveObject);
-            arCurrentActiveObject = Instantiate(arPrefabs[2], originalPos);
+            arCurrentActiveObject = Instantiate(arPrefabs[1], originalPos);
             
         }
         else if (currentObjectIndex == 2)
@@ -180,21 +180,25 @@ public class ImageTracker : MonoBehaviour
         if (currentObjectIndex == 4)
         {
             StaticUIHandler.instance.ShowSanctuaryAddButton(true);
-            selectPan.SetActive(true);
             StaticUIHandler.instance.ShowSanctuaryMoveButton(true);
+            selectPan.SetActive(true);
             selectPan.GetComponent<SelectPan>().Initialize(arPrefabs[4]);
 
         }
         else if (currentObjectIndex != 4)
         {
             selectPan.SetActive(false);
+            StaticUIHandler.instance.ShowSanctuaryAddButton(false);
+            StaticUIHandler.instance.ShowSanctuaryEditButton(false);
+            StaticUIHandler.instance.ShowSanctuaryEditPanel(false);
+            StaticUIHandler.instance.ShowSanctuaryMoveButton(false);
             arCurrentActiveObject = Instantiate(arPrefabs[modelIndexToSwitchTo], originalPos);
         }
 
-
+        /*
         if (aRScale.objectToScale != null)
             arCurrentActiveObject.transform.localScale = aRScale.objectToScale.transform.localScale; // save previous scale
-
+        */
     }
 
  

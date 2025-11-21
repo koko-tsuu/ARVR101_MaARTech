@@ -99,7 +99,7 @@ public  class StaticUIHandler : MonoBehaviour
 
     public void ShowIdeationWinText()
     {
-        stairsText.GetComponent<TextMeshProUGUI>().text = "You've come up with an idea!";
+        stairsText.GetComponent<TextMeshProUGUI>().text = "What a great idea!";
         stairsText.SetActive(true);
     }
     

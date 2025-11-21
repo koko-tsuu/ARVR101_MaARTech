@@ -28,7 +28,7 @@ public class IdeationScript : MonoBehaviour
     int stepVertical = 0;
     int stepHorizontal = 0;
 
-    float snapThreshold = 0.6f;
+    float snapThreshold = 0.5f;
     float snapRotateThreshold = 0.3f;
     float increment = 0.1f;
     
@@ -90,15 +90,15 @@ public class IdeationScript : MonoBehaviour
                         if (hitObject == firstPartClickables[0])
                         {
                             // up?
-                            if (stepVertical < maxShifts)
-                            {
-                                Debug.Log("up");
-                                firstPart.transform.position += new Vector3(0, increment, 0);
-                                stepVertical++;
-                            }
+                             currentPart++;
+                            secondPart.SetActive(true);
+                            StartCoroutine(PulseEmission());
+                            
+                            //stairs.GetComponent<Renderer>().material.color = new Color(UnityEngine.Random.Range(0F,1F), UnityEngine.Random.Range(0, 1F), UnityEngine.Random.Range(0, 1F));
                         }
                         else if (hitObject == firstPartClickables[1])
                         {
+
                             // down
                             if (stepVertical > maxShifts * -1)
                             {
@@ -106,16 +106,20 @@ public class IdeationScript : MonoBehaviour
                                  firstPart.transform.position += new Vector3(0, increment*-1, 0);
                                 stepVertical--;
                             }
+                            // stairs.GetComponent<Renderer>().material.color = new Color(UnityEngine.Random.Range(0F,1F), UnityEngine.Random.Range(0, 1F), UnityEngine.Random.Range(0, 1F));
                         }
                         
                         else if (hitObject == firstPartClickables[2])
                         {
+                            
                             // left
                             if (stepHorizontal > maxShifts * -1)
                             {
                                 firstPart.transform.position += new Vector3(increment * -1, 0, 0);
                                 stepHorizontal--;
                             }
+                            
+                            // stairs.GetComponent<Renderer>().material.color = new Color(UnityEngine.Random.Range(0F,1F), UnityEngine.Random.Range(0, 1F), UnityEngine.Random.Range(0, 1F));
                         }
                         else if (hitObject == firstPartClickables[3])
                         {
@@ -125,6 +129,8 @@ public class IdeationScript : MonoBehaviour
                                 firstPart.transform.position += new Vector3(increment, 0, 0);
                                 stepHorizontal++;
                             }
+
+                           
                         }
 
 
@@ -180,7 +186,7 @@ public class IdeationScript : MonoBehaviour
             }
         }
 
-        // check condition for first part and third part
+        // check condition for third part
         CheckPartCompletion();
 
     }
@@ -238,8 +244,8 @@ public class IdeationScript : MonoBehaviour
 
     private bool isThirdPartComplete()
     {
-        Debug.Log(thirdPart.transform.rotation.z);
-        Debug.Log(thirdPart.transform.rotation.z % 360);
+       // Debug.Log(thirdPart.transform.rotation.z);
+       // Debug.Log(thirdPart.transform.rotation.z % 360);
         if (thirdPart.transform.rotation.z % 360 < snapRotateThreshold)
         {
             currentPart++;
@@ -271,11 +277,14 @@ public class IdeationScript : MonoBehaviour
 
     private bool CheckPartCompletion()
     {
+        /*
         if (currentPart == 0)
         {
             return isFirstPartComplete();
         }
-        else if (currentPart == 2)
+        
+        else */
+        if (currentPart == 2)
         {
             return isThirdPartComplete();
         }

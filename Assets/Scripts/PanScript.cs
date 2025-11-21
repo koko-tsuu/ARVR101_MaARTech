@@ -109,7 +109,7 @@ public class PanScript : MonoBehaviour
             rb.AddTorque(UnityEngine.Vector3.right * torque * Input.GetAxis("Mouse Y"));
         }
         
-        rb.velocity = UnityEngine.Vector3.zero;
-        rb.angularVelocity = UnityEngine.Vector3.zero;
+        // rb.velocity = UnityEngine.Vector3.zero;
+        // rb.angularVelocity = UnityEngine.Vector3.zero;
     }
 }
