@@ -1587,6 +1587,8 @@ MonoBehaviour:
   - {fileID: 5757910052236753424}
   - {fileID: 1482290564161697424}
   - {fileID: 3172349620273149121}
+  ideationSite: {fileID: 866961237800471482, guid: 3733bd0351ba3c247be11a20dbb23e75, type: 3}
+  judgementChamber: {fileID: 7691951536596489592, guid: e3cf3efbb0168714a9b84eb3b1cd5e3e, type: 3}
 --- !u!1 &5067115247606119532
 GameObject:
   m_ObjectHideFlags: 0

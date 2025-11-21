@@ -9,6 +9,8 @@ public class StairsScript : MonoBehaviour
 
     [SerializeField] private TeethScript[] upperTeethArray;
     [SerializeField] private TeethScript[] lowerTeethArray;
+    [SerializeField] private GameObject ideationSite;
+    [SerializeField] private GameObject judgementChamber;
     private Animator mAnimator;
     private int randomIndex;
     private int remainingUpperTeeth;
@@ -16,9 +18,15 @@ public class StairsScript : MonoBehaviour
     private String secretCode = "012345";
     private bool isAnimationPlaying = false;
 
+    private GameObject ideationHolderObject;
+    private GameObject judgementChamberHolderObject;
+    
+
     private Material mat;
     void Start()
     {
+        ideationHolderObject = Instantiate(ideationSite, new Vector3(this.gameObject.transform.position.x, this.gameObject.transform.position.y, this.gameObject.transform.position.z + 1f), ideationSite.transform.rotation);
+        judgementChamberHolderObject = Instantiate(judgementChamber, new Vector3(this.gameObject.transform.position.x, this.gameObject.transform.position.y -1.5f, this.gameObject.transform.position.z), judgementChamber.transform.rotation);
         mAnimator = GetComponent<Animator>();
         randomIndex = UnityEngine.Random.Range(0, 6);
         remainingUpperTeeth = 6;
@@ -36,6 +44,13 @@ public class StairsScript : MonoBehaviour
 
         StartCoroutine(PulseEmission());
     }
+
+    void OnDestroy()
+    {
+        Destroy(ideationHolderObject);
+        Destroy(judgementChamberHolderObject);
+    }
+    
 
     // Update is called once per frame
     void Update()
@@ -130,6 +145,7 @@ public class StairsScript : MonoBehaviour
                     Debug.Log("oops! you inputted the wrong code");
                     ResetTeeth();
                     mAnimator.SetTrigger("Monch");
+                    //judgementParticleSystem.SetActive(true);
                     isAnimationPlaying = true;
                     StaticUIHandler.instance.ShowStairsLoseText();
                     StaticUIHandler.instance.ShowStairsResetButton(true);
@@ -156,6 +172,7 @@ public class StairsScript : MonoBehaviour
                 ResetTeeth();
                  isAnimationPlaying = true;
                 mAnimator.SetTrigger("Monch");
+                //judgementParticleSystem.SetActive(true);
                 StaticUIHandler.instance.ShowStairsLoseText();
                 StaticUIHandler.instance.ShowStairsResetButton(true);
             }
