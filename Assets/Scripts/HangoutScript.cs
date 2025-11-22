@@ -6,9 +6,30 @@ using UnityEngine.EventSystems;
 
 public class HangoutScript : MonoBehaviour
 {
-    [SerializeField] private List<GameObject> prefabs;
     [SerializeField] private GameObject monitor;
-    private List<GameObject> instantiatedObjects = new List<GameObject>();
+    
+    void Update()
+    {
+         
+            if (Input.GetMouseButtonDown(0))
+            {
+                Debug.Log("Pressed primary button.");
+
+                Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+                RaycastHit hit;
+                if (Physics.Raycast(ray, out hit, 100))
+                {
+                   if (hit.transform.tag == "figure")
+                    {
+                        hit.transform.GetComponent<HangoutFigure>().AnimateComingUpWithIdea();
+                    }
+
+
+
+                }
+            }
+        
+    }
 
     void OnEnable()
     {
@@ -17,17 +38,9 @@ public class HangoutScript : MonoBehaviour
     private void OnMouseDown()
     {
         Debug.Log("hangout clicked");
-       instantiatedObjects.Add(Instantiate(prefabs[Random.Range(0, prefabs.Count)], this.transform));
         
     }
 
-    public void Reset()
-    {
-        foreach (GameObject obj in instantiatedObjects)
-            Destroy(obj);
-
-        instantiatedObjects.Clear();
-    }
 
     private IEnumerator PulseEmission()
     {

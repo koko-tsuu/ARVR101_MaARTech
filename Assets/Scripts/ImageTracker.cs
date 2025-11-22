@@ -134,7 +134,8 @@ public class ImageTracker : MonoBehaviour
         }
         else if (currentObjectIndex == 3)
         {
-            arCurrentActiveObject.GetComponent<HangoutScript>().Reset();
+              Destroy(arCurrentActiveObject);
+            arCurrentActiveObject = Instantiate(arPrefabs[3], originalPos);
         }
         else if (currentObjectIndex == 4)
         {

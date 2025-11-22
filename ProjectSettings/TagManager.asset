@@ -9,6 +9,7 @@ TagManager:
   - pan
   - loofah
   - idea_blocks
+  - figure
   layers:
   - Default
   - TransparentFX
