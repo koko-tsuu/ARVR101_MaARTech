@@ -110,10 +110,10 @@ public class SelectPan : MonoBehaviour
         sanctuaryPansList.Clear();
     }
 
-    public void Initialize(GameObject obj)
+    public void Initialize(GameObject obj, Vector3 vector3)
     {
         panPrefab = obj;
-        sanctuaryPansList.Add(Instantiate(obj, ImageTracker.instance.originalPos));
+        sanctuaryPansList.Add(Instantiate(obj, vector3, Quaternion.identity));
     }
 
     public void AddNewPan()

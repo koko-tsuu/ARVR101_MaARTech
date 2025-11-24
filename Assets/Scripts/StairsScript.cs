@@ -6,11 +6,12 @@ using UnityEngine;
 
 public class StairsScript : MonoBehaviour
 {
-
+   
     [SerializeField] private TeethScript[] upperTeethArray;
     [SerializeField] private TeethScript[] lowerTeethArray;
     [SerializeField] private GameObject ideationSite;
     [SerializeField] private GameObject judgementChamber;
+     [SerializeField] private GameObject monchParticleSystem;
     private Animator mAnimator;
     private int randomIndex;
     private int remainingUpperTeeth;
@@ -145,6 +146,7 @@ public class StairsScript : MonoBehaviour
                     Debug.Log("oops! you inputted the wrong code");
                     ResetTeeth();
                     mAnimator.SetTrigger("Monch");
+                    monchParticleSystem.SetActive(true);
                     //judgementParticleSystem.SetActive(true);
                     isAnimationPlaying = true;
                     StaticUIHandler.instance.ShowStairsLoseText();
@@ -172,6 +174,7 @@ public class StairsScript : MonoBehaviour
                 ResetTeeth();
                  isAnimationPlaying = true;
                 mAnimator.SetTrigger("Monch");
+                monchParticleSystem.SetActive(true);
                 //judgementParticleSystem.SetActive(true);
                 StaticUIHandler.instance.ShowStairsLoseText();
                 StaticUIHandler.instance.ShowStairsResetButton(true);

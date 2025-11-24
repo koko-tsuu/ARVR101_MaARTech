@@ -131,6 +131,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0d4a2a8777065344ebad2a2d5c45ba5f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isEmittingWords: 1
+  word: Hello World!
+  fontSelectedIndex: 0
+  panColor: {r: 0, g: 0, b: 0, a: 0}
+  previewSprite: {fileID: 0}
+  spawnRate: 0
+  startSize: 0
 --- !u!65 &468914169102503610
 BoxCollider:
   m_ObjectHideFlags: 0

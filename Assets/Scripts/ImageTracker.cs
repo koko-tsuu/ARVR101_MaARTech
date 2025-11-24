@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Numerics;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.XR.ARFoundation;
@@ -23,6 +24,8 @@ public class ImageTracker : MonoBehaviour
     public Transform originalPos;
 
     private int modelIndexToSwitchTo;
+
+    private float panOffset = 0.5f;
 
     // [SerializeField] private ARScale aRScale;
 
@@ -140,6 +143,9 @@ public class ImageTracker : MonoBehaviour
         else if (currentObjectIndex == 4)
         {
             selectPan.GetComponent<SelectPan>().ClearSanctuaryItems();
+            selectPan.GetComponent<SelectPan>().Initialize(arPrefabs[4], new UnityEngine.Vector3(originalPos.position.x,originalPos.position.y, originalPos.position.z));
+            selectPan.GetComponent<SelectPan>().Initialize(arPrefabs[4], new UnityEngine.Vector3(originalPos.transform.position.x + panOffset, originalPos.transform.position.y, originalPos.transform.position.z));
+            selectPan.GetComponent<SelectPan>().Initialize(arPrefabs[4], new UnityEngine.Vector3(originalPos.transform.position.x - panOffset, originalPos.transform.position.y, originalPos.transform.position.z));
         }
        
        
@@ -183,8 +189,9 @@ public class ImageTracker : MonoBehaviour
             StaticUIHandler.instance.ShowSanctuaryAddButton(true);
             StaticUIHandler.instance.ShowSanctuaryMoveButton(true);
             selectPan.SetActive(true);
-            selectPan.GetComponent<SelectPan>().Initialize(arPrefabs[4]);
-
+            selectPan.GetComponent<SelectPan>().Initialize(arPrefabs[4], new UnityEngine.Vector3(originalPos.position.x,originalPos.position.y, originalPos.position.z));
+            selectPan.GetComponent<SelectPan>().Initialize(arPrefabs[4], new UnityEngine.Vector3(originalPos.transform.position.x + panOffset, originalPos.transform.position.y, originalPos.transform.position.z));
+            selectPan.GetComponent<SelectPan>().Initialize(arPrefabs[4], new UnityEngine.Vector3(originalPos.transform.position.x - panOffset, originalPos.transform.position.y, originalPos.transform.position.z));
         }
         else if (currentObjectIndex != 4)
         {
