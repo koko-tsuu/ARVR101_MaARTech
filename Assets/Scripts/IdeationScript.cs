@@ -61,16 +61,20 @@ public class IdeationScript : MonoBehaviour
     {
         if (Input.GetMouseButtonDown(0))
         {
-            Debug.Log("Pressed primary button.");
+           
 
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             RaycastHit hit;
-            if (Physics.Raycast(ray, out hit, 100))
+
+            LayerMask layerMask = ~(0 << 2);
+
+            if (Physics.Raycast(ray, out hit, 100, layerMask))
             {
 
                 if (hit.transform.parent.tag == "idea_blocks")
                 {
                    Debug.Log(hit.transform.parent.name);
+                   
 
                    GameObject hitObject = hit.transform.gameObject;
 

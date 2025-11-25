@@ -13,6 +13,8 @@ public class SelectPan : MonoBehaviour
     public static SelectPan instance { get; private set; }
     private Transform highlight;
     public List<GameObject> sanctuaryPansList = new List<GameObject>();
+    private List<GameObject> spawnedSanctuaryObjects = new List<GameObject>();
+    [SerializeField] private List<GameObject> sanctuarySpawnableObjectsList = new List<GameObject>();
     [SerializeField] private TMP_Dropdown emissionDropdown;
     [SerializeField] private TMP_Dropdown fontDropdown;
     [SerializeField] private TMP_InputField textInputField;
@@ -49,6 +51,20 @@ public class SelectPan : MonoBehaviour
 
     }
 
+    void OnEnable()
+    {
+        SpawnRandomObjects();
+    }
+
+    public void SpawnRandomObjects()
+    {
+        for (int i = 0; i < 10; i++)
+        {
+            int randomObjectIndex = UnityEngine.Random.Range(0, sanctuarySpawnableObjectsList.Count);
+            spawnedSanctuaryObjects.Add(Instantiate(sanctuarySpawnableObjectsList[randomObjectIndex], new Vector3(UnityEngine.Random.Range(-1.5f, 1.5f),UnityEngine.Random.Range(-1.5f, 1.5f),UnityEngine.Random.Range(-1.5f, 1.5f)),sanctuarySpawnableObjectsList[i].transform.rotation));
+        }
+    }
+
     void Update()
     {
         if (highlight == null)
@@ -60,6 +76,8 @@ public class SelectPan : MonoBehaviour
         {
             StaticUIHandler.instance.ShowSanctuaryEditButton(true);
         }
+       
+        
     }
     
     public void Highlight(Transform transform)
@@ -91,6 +109,7 @@ public class SelectPan : MonoBehaviour
         ReloadEditPanel();
 
     }
+    
 
 
     public void RemoveHighlight()
@@ -108,7 +127,15 @@ public class SelectPan : MonoBehaviour
             Destroy(sanctuaryPansList[i]);
 
         sanctuaryPansList.Clear();
+
+        for (int i = 0; i < spawnedSanctuaryObjects.Count; i++)
+            Destroy(spawnedSanctuaryObjects[i]);
+
+        spawnedSanctuaryObjects.Clear();
+
+
     }
+    
 
     public void Initialize(GameObject obj, Vector3 vector3)
     {
@@ -119,6 +146,13 @@ public class SelectPan : MonoBehaviour
     public void AddNewPan()
     {
         sanctuaryPansList.Add(Instantiate(panPrefab, ImageTracker.instance.originalPos));
+        
+    }
+
+    public void AddNewPan(float offset)
+    {
+        sanctuaryPansList.Add(Instantiate(panPrefab, new Vector3(ImageTracker.instance.originalPos.transform.position.x - offset, ImageTracker.instance.originalPos.transform.position.y, ImageTracker.instance.originalPos.transform.position.z), panPrefab.transform.rotation));
+        
     }
 
     public void RemovePan()
@@ -240,6 +274,7 @@ public class SelectPan : MonoBehaviour
     public void SwapMoveAndRotate()
     {
         PanScript.isMove = !PanScript.isMove;
+        SanctuarySpawnableObjects.isMove = !SanctuarySpawnableObjects.isMove;
         StaticUIHandler.instance.SwapMoveRotateButtons();
     }
 

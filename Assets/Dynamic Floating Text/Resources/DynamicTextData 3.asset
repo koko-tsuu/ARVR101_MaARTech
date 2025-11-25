@@ -34,5 +34,5 @@ MonoBehaviour:
   popModifier: 2
   colourAlternationMode: 0
   sizeAlternationMode: 0
-  enterType: 03000000
+  enterType: 04000000
   exitType: 1

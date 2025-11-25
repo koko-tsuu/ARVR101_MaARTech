@@ -6,8 +6,13 @@ using UnityEngine.EventSystems;
 
 public class HangoutScript : MonoBehaviour
 {
-    [SerializeField] private GameObject monitor;
     
+    [SerializeField] private GameObject figures;
+    [SerializeField] private GameObject particleSystem;
+
+    
+    
+  
     void Update()
     {
          
@@ -24,6 +29,12 @@ public class HangoutScript : MonoBehaviour
                         hit.transform.GetComponent<HangoutFigure>().AnimateComingUpWithIdea();
                     }
 
+                    else if (hit.transform.name == "idea_collision")
+                    {
+                        figures.SetActive(true);
+                        particleSystem.SetActive(true);
+                    }
+
 
 
                 }
@@ -31,51 +42,9 @@ public class HangoutScript : MonoBehaviour
         
     }
 
-    void OnEnable()
-    {
-        // StartCoroutine(PulseEmission());
-    }
-    private void OnMouseDown()
-    {
-        Debug.Log("hangout clicked");
-        
-    }
+    
 
 
-    private IEnumerator PulseEmission()
-    {
-        float duration = 1f;   // speed of the pulse
 
-        Color black = Color.black;
-        Color blue = Color.blue;
-
-        monitor.GetComponent<Renderer>().material.EnableKeyword("_EMISSION");
-
-        while (true)
-        {
-            // BLACK → WHITE
-            float t = 0f;
-            while (t < duration)
-            {
-                t += Time.deltaTime;
-                float smooth = Mathf.SmoothStep(0f, 1f, t / duration);
-
-               // monitor.GetComponent<Renderer>().material.EnableKeyword("_EMISSION");
-                // monitor.GetComponent<Renderer>().material.SetColor("_EmissionColor", Color.Lerp(black, blue, smooth));
-                yield return null;
-            }
-
-            // WHITE → BLACK
-            t = 0f;
-            while (t < duration)
-            {
-                t += Time.deltaTime;
-                float smooth = Mathf.SmoothStep(0f, 1f, t / duration);
-
-                // monitor.GetComponent<Renderer>().material.SetColor("_EmissionColor", Color.Lerp(blue, black, smooth));
-                yield return null;
-            }
-        }
-    }
 
 }

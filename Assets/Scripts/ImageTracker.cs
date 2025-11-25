@@ -14,6 +14,7 @@ public class ImageTracker : MonoBehaviour
     private ARTrackedImageManager trackedImages;
 
     [SerializeField] private GameObject selectPan;
+    [SerializeField] private GameObject hangoutInstantiatedObjectsHolder;
     
     [SerializeField] private GameObject groundPrefab;
     [SerializeField] private GameObject[] arPrefabs;
@@ -25,7 +26,7 @@ public class ImageTracker : MonoBehaviour
 
     private int modelIndexToSwitchTo;
 
-    private float panOffset = 0.5f;
+    public float panOffset = 0.5f;
 
     // [SerializeField] private ARScale aRScale;
 
@@ -137,12 +138,15 @@ public class ImageTracker : MonoBehaviour
         }
         else if (currentObjectIndex == 3)
         {
-              Destroy(arCurrentActiveObject);
+            HangoutInstantiatedObjectsHolder.instance.RemoveAllInstantiatedObjects();
+            Destroy(arCurrentActiveObject);
             arCurrentActiveObject = Instantiate(arPrefabs[3], originalPos);
+            
         }
         else if (currentObjectIndex == 4)
         {
             selectPan.GetComponent<SelectPan>().ClearSanctuaryItems();
+            selectPan.GetComponent<SelectPan>().SpawnRandomObjects();
             selectPan.GetComponent<SelectPan>().Initialize(arPrefabs[4], new UnityEngine.Vector3(originalPos.position.x,originalPos.position.y, originalPos.position.z));
             selectPan.GetComponent<SelectPan>().Initialize(arPrefabs[4], new UnityEngine.Vector3(originalPos.transform.position.x + panOffset, originalPos.transform.position.y, originalPos.transform.position.z));
             selectPan.GetComponent<SelectPan>().Initialize(arPrefabs[4], new UnityEngine.Vector3(originalPos.transform.position.x - panOffset, originalPos.transform.position.y, originalPos.transform.position.z));
@@ -169,11 +173,25 @@ public class ImageTracker : MonoBehaviour
 
     public void ChangeActiveObject()
     {
+
+        if (currentObjectIndex == 3)
+        {
+            
+             HangoutInstantiatedObjectsHolder.instance.RemoveAllInstantiatedObjects();
+             hangoutInstantiatedObjectsHolder.SetActive(false);
+             
+        }
+
+        else if (currentObjectIndex == 4)
+            selectPan.GetComponent<SelectPan>().ClearSanctuaryItems();
+
         if (currentObjectIndex != 4)
             Destroy(arCurrentActiveObject);
+            
+       
 
-        else
-            selectPan.GetComponent<SelectPan>().ClearSanctuaryItems();
+
+        
 
         currentObjectIndex = modelIndexToSwitchTo;
         
@@ -201,6 +219,9 @@ public class ImageTracker : MonoBehaviour
             StaticUIHandler.instance.ShowSanctuaryEditPanel(false);
             StaticUIHandler.instance.ShowSanctuaryMoveButton(false);
             arCurrentActiveObject = Instantiate(arPrefabs[modelIndexToSwitchTo], originalPos);
+
+            if (currentObjectIndex == 3)
+                hangoutInstantiatedObjectsHolder.SetActive(true);
         }
 
         /*

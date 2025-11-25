@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class HangoutInstantiatedObjectsScript : MonoBehaviour
 {
-    float minRange = -1f;
-    float maxRange = 1f;
+    float minRange = -2f;
+    float maxRange = 2f;
     Vector3 touchPosition;
     Vector3 originalPos;
 
@@ -23,6 +23,13 @@ public class HangoutInstantiatedObjectsScript : MonoBehaviour
     void Start()
     {
         originalPos = this.transform.position;
+        StartCoroutine(StopParticleSystemAfterFewSeconds());
+    }
+
+    IEnumerator StopParticleSystemAfterFewSeconds()
+    {
+        yield return new WaitForSeconds(3.0f);
+        GetComponent<ParticleSystem>().Stop();
     }
 
     private Vector3 GetTouchPos()

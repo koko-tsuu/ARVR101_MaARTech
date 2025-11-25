@@ -24,8 +24,7 @@ public class PanScript : MonoBehaviour
     public float startSize = 0f;
     
     bool isTracking;
-    float minRange = -1f;
-    float maxRange = 1f;
+
     UnityEngine.Vector3 touchPosition;
 
     private float torque = 1.0f;
@@ -53,10 +52,7 @@ public class PanScript : MonoBehaviour
         isTracking = false;
     }
 
-    void Update()
-    {
-        transform.position = new UnityEngine.Vector3(Mathf.Clamp(transform.position.x, minRange, maxRange), Mathf.Clamp(transform.position.y, minRange, maxRange), Mathf.Clamp(transform.position.z, minRange, maxRange));
-    }
+   
 
     IEnumerator EmitText()
     {
