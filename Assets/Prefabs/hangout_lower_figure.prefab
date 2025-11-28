@@ -176,4 +176,3 @@ MonoBehaviour:
   - {fileID: 822034236491029674, guid: eff02c5e603544a428b004b783a3b327, type: 3}
   - {fileID: 4582350218607752195, guid: f086d1e50f6bb754a9c0737885b5b296, type: 3}
   - {fileID: 7746227338393635291, guid: 60312243d55c74c41be18cf9af2bfbf0, type: 3}
-  particleSystem: {fileID: 8918370365311046189, guid: af92e8c9bcecc2640bcae711abb7f9c0, type: 3}

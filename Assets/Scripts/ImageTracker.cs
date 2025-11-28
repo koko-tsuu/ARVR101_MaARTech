@@ -15,6 +15,7 @@ public class ImageTracker : MonoBehaviour
 
     [SerializeField] private GameObject selectPan;
     [SerializeField] private GameObject hangoutInstantiatedObjectsHolder;
+    [SerializeField] private GameObject aRScale;
     
     [SerializeField] private GameObject groundPrefab;
     [SerializeField] private GameObject[] arPrefabs;
@@ -199,8 +200,10 @@ public class ImageTracker : MonoBehaviour
         StaticUIHandler.instance.ShowResetWarningPanel(false);
         StaticUIHandler.instance.ShowSwitchModelWarningPanel(false);
         StaticUIHandler.instance.ShowSanctuaryAddButton(false);
+        StaticUIHandler.instance.HideHangoutUI();
         StaticUIHandler.instance.HideStairsText();
         StaticUIHandler.instance.ShowStairsResetButton(false);
+        aRScale.SetActive(false);
 
         if (currentObjectIndex == 4)
         {
@@ -208,8 +211,9 @@ public class ImageTracker : MonoBehaviour
             StaticUIHandler.instance.ShowSanctuaryMoveButton(true);
             selectPan.SetActive(true);
             selectPan.GetComponent<SelectPan>().Initialize(arPrefabs[4], new UnityEngine.Vector3(originalPos.position.x,originalPos.position.y, originalPos.position.z));
-            selectPan.GetComponent<SelectPan>().Initialize(arPrefabs[4], new UnityEngine.Vector3(originalPos.transform.position.x + panOffset, originalPos.transform.position.y, originalPos.transform.position.z));
-            selectPan.GetComponent<SelectPan>().Initialize(arPrefabs[4], new UnityEngine.Vector3(originalPos.transform.position.x - panOffset, originalPos.transform.position.y, originalPos.transform.position.z));
+            selectPan.GetComponent<SelectPan>().AddNewPan(panOffset);
+            selectPan.GetComponent<SelectPan>().AddNewPan(panOffset*-1);
+            aRScale.SetActive(true);
         }
         else if (currentObjectIndex != 4)
         {
@@ -219,9 +223,13 @@ public class ImageTracker : MonoBehaviour
             StaticUIHandler.instance.ShowSanctuaryEditPanel(false);
             StaticUIHandler.instance.ShowSanctuaryMoveButton(false);
             arCurrentActiveObject = Instantiate(arPrefabs[modelIndexToSwitchTo], originalPos);
-
+            
             if (currentObjectIndex == 3)
+            {
                 hangoutInstantiatedObjectsHolder.SetActive(true);
+                StaticUIHandler.instance.ShowHangoutUI();
+                aRScale.SetActive(true);
+            }
         }
 
         /*

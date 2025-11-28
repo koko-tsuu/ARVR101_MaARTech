@@ -15,11 +15,15 @@ public  class StaticUIHandler : MonoBehaviour
 
     [SerializeField] private GameObject stairsResetButton;
     [SerializeField] private GameObject stairsText;
+    [SerializeField] private GameObject hangoutHighlightButton;
     [SerializeField] private GameObject sanctuaryAddButton;
     [SerializeField] private GameObject sanctuaryEditButton;
     [SerializeField] private GameObject sanctuaryEditPanel;
     [SerializeField] private GameObject sanctuaryMoveButton;
     [SerializeField] private GameObject sanctuaryRotateButton;
+
+    [SerializeField] private GameObject hangoutMoveButton;
+    [SerializeField] private GameObject hangoutRotateButton;
     // Start is called before the first frame update
     private void Awake()
     {
@@ -37,6 +41,11 @@ public  class StaticUIHandler : MonoBehaviour
         if (menuPanel.activeInHierarchy || resetWarningPanel.activeInHierarchy || switchModelWarningPanel.activeInHierarchy)
             return true;
         return false;
+    }
+
+    public bool CheckIfSanctuaryEditPanelIsActive()
+    {
+        return sanctuaryEditPanel.activeInHierarchy;
     }
 
     public void ToggleMenu()
@@ -82,6 +91,18 @@ public  class StaticUIHandler : MonoBehaviour
         sanctuaryEditPanel.SetActive(value);
     }
 
+    public void HideHangoutUI()
+    {
+        hangoutHighlightButton.SetActive(false);
+        hangoutMoveButton.SetActive(false);
+        hangoutRotateButton.SetActive(false);
+    }
+
+    public void ShowHangoutUI()
+    {
+         hangoutMoveButton.SetActive(true);
+    }
+
     public void HideAllSanctuaryUI()
     {
         sanctuaryAddButton.SetActive(false);
@@ -117,6 +138,20 @@ public  class StaticUIHandler : MonoBehaviour
     public void HideMenu()
     {
         menuPanel.SetActive(false);
+    }
+
+     public void HangoutSwapMoveRotateButtons()
+    {
+        if (hangoutMoveButton.activeInHierarchy)
+        {
+            hangoutMoveButton.SetActive(false);
+            hangoutRotateButton.SetActive(true);
+        }
+        else
+        {
+            hangoutMoveButton.SetActive(true);
+            hangoutRotateButton.SetActive(false);
+        }
     }
 
     public void SwapMoveRotateButtons()

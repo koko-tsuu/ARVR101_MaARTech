@@ -38,6 +38,12 @@ public class HangoutInstantiatedObjectsHolder : MonoBehaviour
 
     }
 
+    public void SwapMoveandRotate()
+    {
+        StaticUIHandler.instance.HangoutSwapMoveRotateButtons();
+        HangoutInstantiatedObjectsScript.isMove = !HangoutInstantiatedObjectsScript.isMove;
+    }
+
     public void SwapOffOnHighlights()
     {
         isHighlightsOn = !isHighlightsOn;

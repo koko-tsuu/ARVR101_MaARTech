@@ -1,13 +1,18 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class HangoutInstantiatedObjectsScript : MonoBehaviour
 {
-    float minRange = -2f;
-    float maxRange = 2f;
+    public static bool isMove = true;
+    float minRange = -3f;
+    float maxRange = 3f;
     Vector3 touchPosition;
     Vector3 originalPos;
+
+    Rigidbody rb;
+    float torque = 1000.0f;
 
     void Update()
     {
@@ -23,14 +28,10 @@ public class HangoutInstantiatedObjectsScript : MonoBehaviour
     void Start()
     {
         originalPos = this.transform.position;
-        StartCoroutine(StopParticleSystemAfterFewSeconds());
+        rb = this.GetComponent<Rigidbody>();
     }
 
-    IEnumerator StopParticleSystemAfterFewSeconds()
-    {
-        yield return new WaitForSeconds(3.0f);
-        GetComponent<ParticleSystem>().Stop();
-    }
+
 
     private Vector3 GetTouchPos()
     {
@@ -44,10 +45,16 @@ public class HangoutInstantiatedObjectsScript : MonoBehaviour
     private void OnMouseDrag()
     {
 
-        transform.position = Camera.main.ScreenToWorldPoint(Input.mousePosition - touchPosition);
+        if (isMove)
+            transform.position = Camera.main.ScreenToWorldPoint(Input.mousePosition - touchPosition);
+        else
+        {
+            rb.AddTorque(UnityEngine.Vector3.up * torque * -Input.GetAxis("Mouse X"));
+            rb.AddTorque(UnityEngine.Vector3.right * torque * Input.GetAxis("Mouse Y"));
+        }
 
-        this.gameObject.GetComponent<Rigidbody>().velocity = UnityEngine.Vector3.zero;
-        this.gameObject.GetComponent<Rigidbody>().angularVelocity = UnityEngine.Vector3.zero;
-    
+         rb.velocity = UnityEngine.Vector3.zero;
+         rb.angularVelocity = UnityEngine.Vector3.zero;
+         
     }
 }

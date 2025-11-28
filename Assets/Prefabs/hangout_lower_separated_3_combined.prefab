@@ -11179,7 +11179,6 @@ GameObject:
   m_Component:
   - component: {fileID: 2307352730120585414}
   - component: {fileID: 4043273120219952348}
-  - component: {fileID: 468213487349433878}
   m_Layer: 0
   m_Name: hangout_lower_separated_3_combined
   m_TagString: Untagged
@@ -11196,8 +11195,8 @@ Transform:
   m_GameObject: {fileID: 4114448768988071008}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: -1, z: 0, w: 0}
-  m_LocalPosition: {x: 0, y: 0, z: 0.05}
-  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
+  m_LocalPosition: {x: -0.3, y: -0.2, z: 0.05}
+  m_LocalScale: {x: 0.3, y: 0.3, z: 0.3}
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 1499668384800992960}
@@ -11232,27 +11231,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   figures: {fileID: 7643692814665936329}
   particleSystem: {fileID: 2954594127548170598}
---- !u!65 &468213487349433878
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4114448768988071008}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 1
-  m_IsTrigger: 1
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 4.263831, y: 1.383158, z: 3.0014184}
-  m_Center: {x: -0.8066429, y: 2.2150877, z: 0.20491883}
 --- !u!1 &4901675822600963835
 GameObject:
   m_ObjectHideFlags: 0

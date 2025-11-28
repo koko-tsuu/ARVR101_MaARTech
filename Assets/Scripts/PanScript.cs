@@ -91,7 +91,9 @@ public class PanScript : MonoBehaviour
         if (isMove)
             touchPosition = Input.mousePosition - GetTouchPos();
         
-        SelectPan.instance.Highlight(this.gameObject.transform);
+        // I'm doing this because I noticed that accidentally touching a pan while in an edit panel can happen
+        if (!StaticUIHandler.instance.CheckIfSanctuaryEditPanelIsActive())
+            SelectPan.instance.Highlight(this.gameObject.transform);
         
     }
 
